@@ -1,24 +1,28 @@
-import { useState } from "react";
+import { ColorSchemePref, ResolvedScheme, useStore } from "../utils";
 
-export interface UseModeOptions {
-  /** this is a dummy option */
-  dummy?: string;
+export interface UseModeYield {
+  mode: ColorSchemePref;
+  systemMode: ResolvedScheme;
+  setMode: (mode: ColorSchemePref) => void;
 }
 
 /**
- * 
+ *
  *
  * @example
  * ```tsx
  * const [] = useMode(options);
  * ```
- * 
+ *
  * @source - Source code
  */
 
-export const useMode = (options?: UseModeOptions) => {
-  const [value, setValue] = useState(0);
-  return {
-    value, setValue
-  }
-}
+export const useMode = (): UseModeYield => {
+  const [{ mode, systemMode }, setState] = useStore();
+
+  const setMode = (mode: ColorSchemePref) => {
+    setState(state => ({ ...state, mode }));
+  };
+
+  return { mode, systemMode, setMode };
+};

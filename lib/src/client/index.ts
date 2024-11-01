@@ -7,4 +7,5 @@
  * */
 
 // client component exports
+export * from "./core";
 export * from "./loader-container";

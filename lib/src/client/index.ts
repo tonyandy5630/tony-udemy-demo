@@ -7,5 +7,6 @@
  * */
 
 // client component exports
+export * from "./switch";
 export * from "./core";
 export * from "./loader-container";

@@ -13,8 +13,6 @@ const INIT_STORE: Store = {
   systemMode: "light",
 };
 
-export const stateKey = "theme-key-state";
-
 export const parseState = (state: string | null) => {
   return state ? JSON.parse(state) : INIT_STORE;
 };

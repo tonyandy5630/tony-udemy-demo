@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { ColorSchemePref, parseState, ResolvedScheme, stateKey, useStore } from "../utils";
+import { ColorSchemePref, parseState, ResolvedScheme, useStore } from "../utils";
+import { MODES, stateKey } from "../constants";
 
 export interface UseModeYield {
   mode: ColorSchemePref;
@@ -25,6 +26,7 @@ export const useMode = (): UseModeYield => {
     setThemeState(state => ({ ...state, mode }));
   };
 
+  //* Effect for syncing and update system color scheme between tabs
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const updateSystemColorScheme = () => {
@@ -48,6 +50,19 @@ export const useMode = (): UseModeYield => {
       removeEventListener("storage", storageListener);
     };
   }, []);
+
+  useEffect(() => {
+    const documentEl = document.documentElement;
+    const classList = documentEl.classList;
+
+    MODES.forEach(mode => {
+      classList.remove(mode);
+    });
+    classList.add(mode);
+    classList.add(systemMode);
+    documentEl.setAttribute("data-theme", mode);
+    localStorage.setItem(stateKey, JSON.stringify({ mode, systemMode }));
+  }, [mode, systemMode]);
 
   return { mode, systemMode, setMode };
 };
